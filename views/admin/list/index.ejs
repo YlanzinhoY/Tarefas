@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<%- include('../../partials/head.ejs') %> 
+<body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/admin/list/index" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <a href="/admin/list/index" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/list/newList" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Criar Tarefa</span>
+                            </a>
+                        </li>
+                    </ul>
+                   
+                    <div class="text-center">
+                        <p>v1.0 <%- include('../../partials/iconsGithub.ejs') %> </p>
+                        <p>&copy; Todos direitos reservados</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col py-3">
+                <h1 class="text-center mt-2 mb-5">Suas Tarefas</h1>
+                <div class="container">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Tarefa</th>
+                                <th>Horarios</th>
+                                <th>Dias da semana</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% list.forEach(el => { %>
+                                <tr class="text-center">
+                                    <th class="tarefa"><%= el.title %> </th>
+                                    <th class="tarefa"><%= el.horarios %> </th>
+                                    <th class="tarefa"><%= el.diaSemana %> </th>
+                                    <th class="d-flex align-items-center justify-content-center gap-2">
+                                        <a href="/admin/list/edit/<%= el.id %> "><button class="btn btn-primary">Editar</button></a>
+
+                                        <form method="POST" action="/list/delete" onsubmit="confirmDelete(event, this)">
+                                            <input type="hidden" name="id" value="<%= el.id %>">
+                                            <button class="btn btn-danger">Excluir</button>
+                                        </form>
+                                    </th>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/foot.ejs') %> 
+    <script>
+
+           
+        function confirmDelete(event,form){
+            event.preventDefault();
+            const confirmDeleteEvent = confirm(`Você realmente deseja excluir Permanente essa Tarefa?`)
+            if(confirmDeleteEvent){
+                form.submit()
+            } else {
+                alert('Categoria não deletada')
+            }
+        }
+    </script>
+</body>
+</html>
